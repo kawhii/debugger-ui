@@ -6,6 +6,7 @@ import com.karl.debugger.ui.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,12 +40,13 @@ public class FileServiceImpl implements IFileService {
             for (File f : fs) {
                 FileDetail fd = resolveFile(new FileDetail(f, f.getName()));
                 File clearFile = fd.file;
-                String filePath = clearFile.getPath();
+//                String filePath = clearFile.getPath();
+                String filePath = StringUtils.isEmpty(basePath) ? f.getName() : basePath + "/" + f.getName();
                 files.add(new FileDTO()
                         .setDir(clearFile.isDirectory())
                         .setLastModified(clearFile.lastModified())
                         .setName(fd.clearName)
-                        .setPath(basePath + "/" + f.getName())
+                        .setPath(filePath)
                         .setSize(clearFile.length()));
             }
             return files;
