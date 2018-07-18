@@ -31,16 +31,20 @@ public class FileServiceImpl implements IFileService {
         String baseDir = directoryAware.getRootDir();
         String path = baseDir + basePath;
         File file = context.getResource(path).getFile();
+
+        //若是目录递归文件
         if(file.isDirectory()) {
             File[] fs = file.listFiles();
             List<FileDTO> files = new ArrayList<>();
             for(File f : fs) {
-                File clearFile = resolveFile(f);
+                FileDetail fd = resolveFile(new FileDetail(f, f.getName()));
+                File clearFile = fd.file;
+                String filePath = clearFile.getPath();
                 files.add(new FileDTO()
                         .setDir(clearFile.isDirectory())
                         .setLastModified(clearFile.lastModified())
-                        .setName(clearFile.getName())
-                        .setPath(clearFile.getPath())
+                        .setName(fd.clearName)
+                        .setPath(filePath)
                         .setSize(clearFile.length()));
             }
             return files;
@@ -53,11 +57,23 @@ public class FileServiceImpl implements IFileService {
      * @param f
      * @return
      */
-    private File resolveFile(File f) {
+    private FileDetail resolveFile(FileDetail f) {
         File next;
-        if(f.isDirectory() && f.list().length == 1 && (next = f.listFiles()[0]).isDirectory()) {
-            return resolveFile(next);
+        if(f.file.isDirectory() && f.file.list().length == 1 && (next = f.file.listFiles()[0]).isDirectory()) {
+            f.clearName = f.clearName + "/" + next.getName();
+            f.file = next;
+            return resolveFile(f);
         }
         return f;
+    }
+
+    private class FileDetail {
+        private File file;
+        private String clearName;
+
+        public FileDetail(File file, String clearName) {
+            this.file = file;
+            this.clearName = clearName;
+        }
     }
 }
