@@ -33,10 +33,10 @@ public class FileServiceImpl implements IFileService {
         File file = context.getResource(path).getFile();
 
         //若是目录递归文件
-        if(file.isDirectory()) {
+        if (file.isDirectory()) {
             File[] fs = file.listFiles();
             List<FileDTO> files = new ArrayList<>();
-            for(File f : fs) {
+            for (File f : fs) {
                 FileDetail fd = resolveFile(new FileDetail(f, f.getName()));
                 File clearFile = fd.file;
                 String filePath = clearFile.getPath();
@@ -44,7 +44,7 @@ public class FileServiceImpl implements IFileService {
                         .setDir(clearFile.isDirectory())
                         .setLastModified(clearFile.lastModified())
                         .setName(fd.clearName)
-                        .setPath(filePath)
+                        .setPath(basePath + "/" + f.getName())
                         .setSize(clearFile.length()));
             }
             return files;
@@ -54,12 +54,13 @@ public class FileServiceImpl implements IFileService {
 
     /**
      * 确认文件，若当前文件为目录，并且下一级还只有一个文件并且为目录时递归，否则直接返回
+     *
      * @param f
      * @return
      */
     private FileDetail resolveFile(FileDetail f) {
         File next;
-        if(f.file.isDirectory() && f.file.list().length == 1 && (next = f.file.listFiles()[0]).isDirectory()) {
+        if (f.file.isDirectory() && f.file.list().length == 1 && (next = f.file.listFiles()[0]).isDirectory()) {
             f.clearName = f.clearName + "/" + next.getName();
             f.file = next;
             return resolveFile(f);

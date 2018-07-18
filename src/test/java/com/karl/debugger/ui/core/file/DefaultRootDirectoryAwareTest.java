@@ -15,7 +15,7 @@ public class DefaultRootDirectoryAwareTest {
 
     @Test
     public void getRootDir() throws IOException {
-        String dir = rootDirectoryAware.getRootDir();
+        Object dir = rootDirectoryAware.getRootDir();
         assertNotNull(dir);
     }
 }
