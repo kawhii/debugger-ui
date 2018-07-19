@@ -1,13 +1,12 @@
 package com.karl.debugger.ui.core;
 
-import com.karl.debugger.ui.ClassUtils;
+import com.karl.debugger.ui.utils.ClassUtils;
 import com.karl.debugger.ui.model.dto.ArgsInfo;
 import com.karl.debugger.ui.model.dto.MethodInfo;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +51,4 @@ public class SimpleMethodInfoReader implements IMethodInfoReader {
     public void setArgsInfoReader(IMethodArgsInfoReader argsInfoReader) {
         this.argsInfoReader = argsInfoReader;
     }
-
-
 }

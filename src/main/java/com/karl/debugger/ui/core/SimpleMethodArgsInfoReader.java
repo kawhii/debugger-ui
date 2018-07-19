@@ -1,6 +1,6 @@
 package com.karl.debugger.ui.core;
 
-import com.karl.debugger.ui.ClassUtils;
+import com.karl.debugger.ui.utils.ClassUtils;
 import com.karl.debugger.ui.model.dto.ArgsInfo;
 
 import java.lang.reflect.Parameter;
