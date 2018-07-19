@@ -27,8 +27,7 @@ public class SpringApplicationContextInstanceStrategy implements IInstanceStrate
     }
 
     @Autowired
-    public SpringApplicationContextInstanceStrategy setContext(ApplicationContext context) {
+    public void setContext(ApplicationContext context) {
         this.context = context;
-        return this;
     }
 }
