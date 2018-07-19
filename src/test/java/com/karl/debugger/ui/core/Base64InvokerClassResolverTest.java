@@ -18,7 +18,7 @@ public class Base64InvokerClassResolverTest {
     public void resolve() {
         String className = Base64.getEncoder().encodeToString("java.lang.String".getBytes());
         String type = Base64.getEncoder().encodeToString("java.lang.Long,java.lang.Integer".getBytes());
-        String method = "toString";
+        String method = Base64.getEncoder().encodeToString("toString".getBytes());
         InvokeClassDTO classDTO =  classResolver.resolve(className, method, type);
         assertNotNull(classDTO);
         assertEquals("toString", classDTO.getMethodName());

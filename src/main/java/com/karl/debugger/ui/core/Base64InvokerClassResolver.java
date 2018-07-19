@@ -18,7 +18,7 @@ public class Base64InvokerClassResolver implements IInvokerClassResolver {
         InvokeClassDTO classDTO = new InvokeClassDTO();
         String className = new String(Base64.getDecoder().decode(clazz));
         classDTO.setClassName(className)
-                .setMethodName(method);
+                .setMethodName(new String(Base64.getDecoder().decode(method)));
         if (!StringUtils.isEmpty(types)) {
             String[] typesList = new String(Base64.getDecoder().decode(types)).split(",");
             classDTO.setTypes(Arrays.asList(typesList));
