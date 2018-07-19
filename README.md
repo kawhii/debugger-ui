@@ -23,3 +23,4 @@
 2. 反射加载类的问题解决（spring、静态、new instance）
 3. method缓存
 4. 属性修改
+5. 方法缓存
