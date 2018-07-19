@@ -1,4 +1,4 @@
-package com.karl.debugger.ui;
+package com.karl.debugger.ui.utils;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
