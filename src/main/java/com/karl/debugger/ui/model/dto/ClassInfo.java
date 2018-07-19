@@ -30,6 +30,14 @@ public class ClassInfo {
      * 类方法
      */
     private List<MethodInfo> methods;
+    /**
+     * 继承类
+     */
+    private String superClassName;
+    /**
+     * 接口类
+     */
+    private List<String> interfaceClassNames;
 
     public List<MethodInfo> getMethods() {
         return methods;
