@@ -2,6 +2,7 @@ package com.karl.debugger.ui.core;
 
 import com.karl.debugger.ui.model.dto.ClassInfo;
 import com.karl.debugger.ui.model.dto.MethodInfo;
+import com.karl.debugger.ui.utils.ClassUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -31,7 +32,7 @@ public class SimpleClassInfoReader implements IClassInfoReader {
                 .setModifiersVal(mds)
                 .setModifiersStr(Modifier.toString(mds))
                 .setSuperClassName(superClz != null ? superClz.getName(): null)
-                .setInterfaceClassNames(getInterfaceNames(clazz))
+                .setInterfaceClassNames(ClassUtils.getClassNames(clazz.getInterfaces()))
         ;
 
         //读取方法数据
@@ -47,24 +48,5 @@ public class SimpleClassInfoReader implements IClassInfoReader {
             }
         }
         return classInfo;
-    }
-
-    /**
-     * 获取接口类名
-     * @param orgClz
-     * @return
-     */
-    private List<String> getInterfaceNames(Class orgClz) {
-        Class<?>[] ifs = orgClz.getInterfaces();
-        if(ifs == null) {
-            return null;
-        }
-
-        List<String> ifsStr = new ArrayList<>(ifs.length);
-        for(Class<?> clz : ifs) {
-            ifsStr.add(clz.getName());
-        }
-
-        return ifsStr;
     }
 }
