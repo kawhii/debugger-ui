@@ -24,17 +24,13 @@ public class MethodInfo {
      */
     private String modifiersStr;
     /**
-     * 类型
-     */
-    private String type;
-    /**
      * 抛出类型
      */
     private List<String> throwsTypes;
     /**
      * 返回类型
      */
-    private String returnTypes;
+    private String returnType;
     /**
      * 参数信息
      */
@@ -71,15 +67,6 @@ public class MethodInfo {
         return this;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public MethodInfo setType(String type) {
-        this.type = type;
-        return this;
-    }
-
     public List<String> getThrowsTypes() {
         return throwsTypes;
     }
@@ -89,12 +76,12 @@ public class MethodInfo {
         return this;
     }
 
-    public String getReturnTypes() {
-        return returnTypes;
+    public String getReturnType() {
+        return returnType;
     }
 
-    public MethodInfo setReturnTypes(String returnTypes) {
-        this.returnTypes = returnTypes;
+    public MethodInfo setReturnType(String returnType) {
+        this.returnType = returnType;
         return this;
     }
 

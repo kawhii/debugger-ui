@@ -47,4 +47,58 @@ public class ClassInfo {
         this.methods = methods;
         return this;
     }
+
+    public int getModifiersVal() {
+        return modifiersVal;
+    }
+
+    public ClassInfo setModifiersVal(int modifiersVal) {
+        this.modifiersVal = modifiersVal;
+        return this;
+    }
+
+    public String getModifiersStr() {
+        return modifiersStr;
+    }
+
+    public ClassInfo setModifiersStr(String modifiersStr) {
+        this.modifiersStr = modifiersStr;
+        return this;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public ClassInfo setClassName(String className) {
+        this.className = className;
+        return this;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public ClassInfo setPackageName(String packageName) {
+        this.packageName = packageName;
+        return this;
+    }
+
+    public String getSuperClassName() {
+        return superClassName;
+    }
+
+    public ClassInfo setSuperClassName(String superClassName) {
+        this.superClassName = superClassName;
+        return this;
+    }
+
+    public List<String> getInterfaceClassNames() {
+        return interfaceClassNames;
+    }
+
+    public ClassInfo setInterfaceClassNames(List<String> interfaceClassNames) {
+        this.interfaceClassNames = interfaceClassNames;
+        return this;
+    }
 }
