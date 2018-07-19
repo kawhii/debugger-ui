@@ -14,10 +14,6 @@ public class ArgsInfo {
      */
     private String argName;
     /**
-     * 是否final
-     */
-    private boolean isFinal;
-    /**
      * 注解类型
      */
     private List<String> annotations;
@@ -35,14 +31,6 @@ public class ArgsInfo {
         return this;
     }
 
-    public boolean isFinal() {
-        return isFinal;
-    }
-
-    public ArgsInfo setFinal(boolean aFinal) {
-        isFinal = aFinal;
-        return this;
-    }
 
     public List<String> getAnnotations() {
         return annotations;

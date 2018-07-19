@@ -1,9 +1,9 @@
 package com.karl.debugger.ui.core;
 
+import com.karl.debugger.ui.ClassUtils;
 import com.karl.debugger.ui.model.dto.ArgsInfo;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.TypeVariable;
+import java.lang.reflect.Parameter;
 
 /**
  * 方法参数读取信息
@@ -13,7 +13,11 @@ import java.lang.reflect.TypeVariable;
  */
 public class SimpleMethodArgsInfoReader implements IMethodArgsInfoReader {
     @Override
-    public ArgsInfo read(TypeVariable<Method> variable) {
-        return null;
+    public ArgsInfo read(Parameter parameter) {
+        ArgsInfo info = new ArgsInfo();
+        info.setArgName(parameter.getName())
+                .setType(parameter.getType().getName());
+        info.setAnnotations(ClassUtils.getAnnotationTypes(parameter.getAnnotations()));
+        return info;
     }
 }

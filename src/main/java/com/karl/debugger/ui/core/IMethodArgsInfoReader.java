@@ -3,6 +3,7 @@ package com.karl.debugger.ui.core;
 import com.karl.debugger.ui.model.dto.ArgsInfo;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.lang.reflect.TypeVariable;
 
 /**
@@ -15,8 +16,8 @@ public interface IMethodArgsInfoReader {
     /**
      * 读取参数信息
      *
-     * @param variable 参数信息
+     * @param parameter 参数信息
      * @return
      */
-    ArgsInfo read(TypeVariable<Method> variable);
+    ArgsInfo read(Parameter parameter);
 }
