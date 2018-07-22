@@ -1,5 +1,7 @@
 package com.karl.debugger.ui.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,8 @@ import java.util.List;
  * @author karl
  * @date 2018/7/19
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class ClassTargetDTO {
     /**
      * 执行类

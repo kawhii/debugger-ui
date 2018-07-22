@@ -1,12 +1,15 @@
 package com.karl.debugger.ui.model.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * 文件内容
  *
  * @author karl
  * @date 2018/7/22
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileContentDTO<B> {
     /**
      * 文件类型

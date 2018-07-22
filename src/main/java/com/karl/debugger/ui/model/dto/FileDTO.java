@@ -1,5 +1,6 @@
 package com.karl.debugger.ui.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author karl
  * @date 2018/7/18
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileDTO {
     /**
      * 文件名称
