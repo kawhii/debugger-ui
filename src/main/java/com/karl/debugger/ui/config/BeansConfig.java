@@ -2,6 +2,8 @@ package com.karl.debugger.ui.config;
 
 import com.karl.debugger.ui.core.IInstanceStrategy;
 import com.karl.debugger.ui.core.SpringApplicationContextInstanceStrategy;
+import com.karl.debugger.ui.core.file.ClassFileRender;
+import com.karl.debugger.ui.core.file.IFileRender;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,5 +22,10 @@ public class BeansConfig {
     @Bean("springApplicationContextInstanceStrategy")
     protected IInstanceStrategy instanceStrategy() {
         return new SpringApplicationContextInstanceStrategy();
+    }
+
+    @Bean
+    protected IFileRender classFileRender() {
+        return new ClassFileRender();
     }
 }

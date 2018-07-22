@@ -36,7 +36,7 @@ public class SimpleClassInfoReader implements IClassInfoReader {
         ;
 
         //读取方法数据
-        Method[] methods = clazz.getMethods();
+        Method[] methods = clazz.getDeclaredMethods();
         if(methodInfoReader != null && methods != null) {
             List<MethodInfo> methodInfos = new ArrayList<>(methods.length);
             for(Method method : methods) {

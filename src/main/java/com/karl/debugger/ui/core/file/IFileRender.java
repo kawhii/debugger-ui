@@ -1,4 +1,8 @@
-package com.karl.debugger.ui.core;
+package com.karl.debugger.ui.core.file;
+
+import com.karl.debugger.ui.model.dto.FileContentDTO;
+
+import java.io.IOException;
 
 /**
  * 文件渲染器
@@ -6,7 +10,7 @@ package com.karl.debugger.ui.core;
  * @author karl
  * @date 2018/7/19
  */
-public interface IFileRender {
+public interface IFileRender<B> {
     /**
      * 渲染器名称
      * @return 唯一名称
@@ -20,6 +24,11 @@ public interface IFileRender {
      */
     boolean support(String suffix);
 
-    //todo 定义渲染接口
-
+    /**
+     * 文件渲染
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    B render(String filePath) throws IOException;
 }

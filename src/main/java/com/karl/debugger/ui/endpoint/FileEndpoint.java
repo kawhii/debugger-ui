@@ -17,14 +17,22 @@ import java.io.IOException;
  * @date 2018/7/18
  */
 @RestController
-@RequestMapping("/dg/tree")
+@RequestMapping("/dg")
 public class FileEndpoint {
     @Autowired
     private IFileService fileService;
-    @GetMapping(path = "/**")
+
+    @GetMapping(path = "/tree/**")
     public Object getFiles(HttpServletRequest request) throws IOException {
         String urlTail = new AntPathMatcher()
                 .extractPathWithinPattern("/{dg}/{tree}/**", request.getRequestURI());
         return fileService.list(urlTail);
+    }
+
+    @GetMapping(path = "/blob/**")
+    public Object fileContent(HttpServletRequest request) throws IOException {
+        String urlTail = new AntPathMatcher()
+                .extractPathWithinPattern("/{dg}/{blob}/**", request.getRequestURI());
+        return fileService.fileDetail(urlTail);
     }
 }

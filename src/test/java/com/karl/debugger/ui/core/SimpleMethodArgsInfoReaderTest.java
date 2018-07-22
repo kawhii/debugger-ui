@@ -34,7 +34,7 @@ public class SimpleMethodArgsInfoReaderTest {
         Parameter parameter = testMethod.getParameters()[0];
         ArgsInfo argsInfo = argsInfoReader.read(parameter);
         assertNotNull(argsInfo);
-        assertNotNull(argsInfo.getAnnotations());
+        assertNull(argsInfo.getAnnotations());
         assertEquals("int", argsInfo.getType());
     }
 

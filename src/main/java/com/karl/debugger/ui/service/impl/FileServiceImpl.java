@@ -1,15 +1,20 @@
 package com.karl.debugger.ui.service.impl;
 
+import com.karl.debugger.ui.core.file.IFileRender;
 import com.karl.debugger.ui.core.file.IRootDirectoryAware;
+import com.karl.debugger.ui.model.dto.FileContentDTO;
 import com.karl.debugger.ui.model.dto.FileDTO;
 import com.karl.debugger.ui.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.NotLinkException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +28,13 @@ import java.util.List;
 public class FileServiceImpl implements IFileService {
     @Autowired
     private IRootDirectoryAware directoryAware;
-
     @Autowired
-    private ApplicationContext context;
+    private List<IFileRender> renders;
 
     @Override
     public List<FileDTO> list(String basePath) throws IOException {
         String baseDir = directoryAware.getRootDir();
-        String path = baseDir + basePath;
-        File file = context.getResource(path).getFile();
+        File file = new File(baseDir, basePath);
 
         //若是目录递归文件
         if (file.isDirectory()) {
@@ -52,6 +55,37 @@ public class FileServiceImpl implements IFileService {
             return files;
         }
         return null;
+    }
+
+    @Override
+    public FileContentDTO fileDetail(String filePath) throws IOException {
+        //后缀
+        String suffix = UriUtils.extractFileExtension(filePath);
+        String baseDir = directoryAware.getRootDir();
+        File file = new File(baseDir, filePath);
+
+        //文件不存在
+        if(!file.exists()) {
+            throw new FileNotFoundException(filePath);
+        }
+
+        //非文件不允许读
+        if(!file.isFile()) {
+            throw new AccessDeniedException(filePath);
+        }
+        FileContentDTO fileContentDTO = new FileContentDTO();
+        fileContentDTO.setSuffix(suffix);
+
+        //找到合适的渲染器进行渲染
+        for(IFileRender fileRender : renders) {
+            if(fileRender.support(suffix)) {
+                fileContentDTO.setType(fileRender.name());
+                fileContentDTO.setBody(fileRender.render(filePath));
+                return fileContentDTO;
+            }
+        }
+
+        throw new NotLinkException(filePath);
     }
 
     /**

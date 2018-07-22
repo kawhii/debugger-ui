@@ -14,6 +14,7 @@ import java.io.IOException;
 public class DefaultRootDirectoryAware implements IRootDirectoryAware {
     @Override
     public String getRootDir() throws IOException {
-        return this.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
+        String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
+        return path.substring(path.indexOf(":") + 1);
     }
 }
