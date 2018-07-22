@@ -4,10 +4,8 @@ import com.karl.debugger.ui.core.IClassInfoReader;
 import com.karl.debugger.ui.core.SimpleClassInfoReader;
 import com.karl.debugger.ui.model.dto.ClassInfo;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 /**
  * 类文件渲染器
@@ -15,9 +13,8 @@ import java.nio.file.AccessDeniedException;
  * @author karl
  * @date 2018/7/22
  */
-public class ClassFileRender implements IFileRender<ClassInfo> {
+public class ClassFileRender extends BaseFileRender<ClassInfo> {
     private IClassInfoReader classInfoReader = new SimpleClassInfoReader();
-    private IRootDirectoryAware rootDirectoryAware = new DefaultRootDirectoryAware();
 
     @Override
     public String name() {
@@ -31,15 +28,7 @@ public class ClassFileRender implements IFileRender<ClassInfo> {
 
     @Override
     public ClassInfo render(String filePath) throws IOException {
-        String basePath = rootDirectoryAware.getRootDir();
-        File file = new File(basePath, filePath);
-        if(!file.exists()) {
-            throw new FileNotFoundException(filePath);
-        }
-
-        if(!file.isFile()) {
-            throw new AccessDeniedException(filePath);
-        }
+        checkExists(filePath);
         String clazz = filePath.substring(0, filePath.lastIndexOf("."))
                 .replaceAll("/",".");
         try {

@@ -2,6 +2,7 @@ package com.karl.debugger.ui.config;
 
 import com.karl.debugger.ui.core.IInstanceStrategy;
 import com.karl.debugger.ui.core.SpringApplicationContextInstanceStrategy;
+import com.karl.debugger.ui.core.file.BlobFileRender;
 import com.karl.debugger.ui.core.file.ClassFileRender;
 import com.karl.debugger.ui.core.file.IFileRender;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +25,21 @@ public class BeansConfig {
         return new SpringApplicationContextInstanceStrategy();
     }
 
+    /**
+     * 类文件渲染器
+     * @return
+     */
     @Bean
     protected IFileRender classFileRender() {
         return new ClassFileRender();
+    }
+
+    /**
+     * 可直接输出文件渲染器
+     * @return
+     */
+    @Bean
+    protected IFileRender blobFileRender() {
+        return new BlobFileRender();
     }
 }

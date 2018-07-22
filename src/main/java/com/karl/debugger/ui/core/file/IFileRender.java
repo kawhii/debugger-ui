@@ -1,6 +1,5 @@
 package com.karl.debugger.ui.core.file;
 
-import com.karl.debugger.ui.model.dto.FileContentDTO;
 
 import java.io.IOException;
 
