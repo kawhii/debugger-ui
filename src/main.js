@@ -7,10 +7,14 @@ import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import App from './App.vue';
 import routes from './lib/routes';
+import * as component from './lib/component';
 
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.use(VueRouter);
+
+//初始化组件
+component.default.init();
 
 
 // 3. 创建 router 实例，然后传 `routes` 配置
