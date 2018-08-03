@@ -16,7 +16,7 @@ public class SimpleMethodArgsInfoReader implements IMethodArgsInfoReader {
     public ArgsInfo read(Parameter parameter) {
         ArgsInfo info = new ArgsInfo();
         info.setArgName(parameter.getName())
-                .setType(parameter.getType().getName());
+                .setType(parameter.getParameterizedType().getTypeName());
         info.setAnnotations(ClassUtils.getAnnotationTypes(parameter.getAnnotations()));
         return info;
     }
