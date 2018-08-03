@@ -17,13 +17,18 @@
             handleNodeClick(data) {
                 //不是目录的时候可以加载数据
                 if (!data.isDir) {
-                    //跳转到对应的视图进行处理
-                    let type = data.name.substring(data.name.lastIndexOf(".") + 1);
-                    if (type === 'class') {
-                        type = "java";
-                    }
+
                     //对路径进行base64
                     let path = btoa(data.path);
+                    //跳转到对应的视图进行处理
+                    let type = data.name.substring(data.name.lastIndexOf(".") + 1);
+
+                    //java 特殊处理
+                    if (type === 'class') {
+                        this.$router.replace({name: 'methods', params: {path: path}});
+                        return;
+                    }
+
                     //跳转目标路径
                     this.$router.replace({name: 'detail', params: {type: type, path: path}});
                 }

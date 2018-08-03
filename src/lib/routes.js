@@ -1,5 +1,6 @@
 import Home from "../view/Home"
 import FileDetail from "../view/FileDetail"
+import JavaMethod from "../view/JavaMethod"
 const Foo = {template: '<div>foo</div>'};
 const Bar = {template: '<div>bar</div>'};
 
@@ -10,6 +11,7 @@ const Bar = {template: '<div>bar</div>'};
 export default  [
     {path: '/', component: Home},
     {path: '/detail/:type/:path', component: FileDetail, name: "detail"},
+    {path: '/methods/:path', component: JavaMethod, name: "methods"},
     {path: '/foo', component: Foo},
     {path: '/bar', component: Bar}
 ];

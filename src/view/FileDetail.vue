@@ -39,7 +39,6 @@
         },
         methods: {
             routeChanged: function () {
-                //todo java显示
                 let type = this.$route.params.type;
                 //base64解码
                 let path = atob(this.$route.params.path);
@@ -47,7 +46,7 @@
                 //异步请求回来把数据展示在页面上
                 axios.get("/dg/blob/" + path).then(function (response) {
                     //以markdown的方式更新数据
-                    _this.fileDetail = marked('```' + type + " \n\n " +
+                    _this.fileDetail = marked('```' + type + " \n" +
                         atob(response.data.body) +
                             " \n "  +
                         "```");
