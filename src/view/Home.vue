@@ -1,6 +1,8 @@
 <template>
-    <div id="home_text">
-        欢迎使用在线debug平台
+    <div>
+        <div id="home_text">
+            欢迎使用在线debug平台
+        </div>
     </div>
 </template>
 <style>
