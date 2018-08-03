@@ -14,11 +14,43 @@
                         <el-popover trigger="hover" placement="top">
                             详情:
                             <div v-if="scope.row.detail != undefined">
-                                <p v-for="ann in scope.row.detail.annotations">
+                                <p v-for="ann in scope.row.detail.annotations" style="color: burlywood">
                                     @{{ann}}()
                                 </p>
                             </div>
-                            <p>{{ scope.row.method }}</p>
+                            <p>
+                                <span v-if="scope.row.detail"
+                                      style="color: chocolate">{{scope.row.detail.modifiersStr}} </span>
+                                <span v-if="scope.row.detail && scope.row.detail.returnType === 'void'"
+                                      style="color: chocolate">{{scope.row.detail.returnType}} </span>
+                                <span v-if="scope.row.detail && scope.row.detail.returnType !== 'void'"
+                                      >{{scope.row.detail.returnType}} </span>
+                                <!--方法名-->
+                                <span v-if="scope.row.detail">{{scope.row.detail.methodName}}( </span>
+
+                                <span v-if="scope.row.detail">
+                                    <!--异常抛出-->
+                                    <span v-if="scope.row.detail.args"
+                                          v-for="(item, index) of scope.row.detail.args">
+                                        <span>{{item.type}} {{item.argName}}</span>
+                                        <span v-if="index != scope.row.detail.args.length - 1">, </span>
+                                    </span>
+                                </span>
+
+                                <span>) </span>
+
+                                <span v-if="scope.row.detail">
+                                    <!--异常抛出-->
+                                    <span v-if="scope.row.detail.throwsTypes"
+                                          v-for="(item, index) of scope.row.detail.throwsTypes">
+                                        <span v-if="index == 0" style="color: chocolate">throws </span>
+                                        <span>{{item}}</span>
+                                        <span v-if="index != scope.row.detail.throwsTypes.length - 1">, </span>
+                                    </span>
+                                </span>
+                                <span>; </span>
+                                <!--<div v-if="scope.row.detail">{{ scope.row.method }}</div>-->
+                            </p>
                             <div slot="reference">
                                 <el-tag size="medium">{{ scope.row.methodName }}</el-tag>
                             </div>
@@ -29,6 +61,14 @@
                         prop="opt"
                         label="操作"
                         width="250">
+                    <template slot-scope="scope">
+                        <el-button
+                                @click.native.prevent="openOpt(scope.row, scope.$index)"
+                                type="text"
+                                size="small">
+                            展开
+                        </el-button>
+                    </template>
                 </el-table-column>
             </el-table>
         </div>
@@ -89,8 +129,12 @@
                     _this.tableData = _this.renderMethodInfo(response.data.body.methods);
                     _this.body = response.data.body;
                     _this.classInfo = _this.renderJavaInfo(response.data);
-                    console.info(response.data);
                 });
+            },
+            //打开操作
+            openOpt: function(row, index) {
+                //todo 展开信息执行
+                console.info("操作了", row, index, this.body);
             },
             /**
              * 渲染java信息
@@ -106,6 +150,11 @@
 
                 return marked(info);
             },
+            /**
+             * 渲染方法信息
+             * @param methods
+             * @returns {Array}
+             */
             renderMethodInfo: function (methods) {
                 let methodInfo = [];
                 if (methods) {
