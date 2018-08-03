@@ -6,10 +6,29 @@
             <el-table
                     :data="tableData"
                     stripe
-                    style="width: 100%">
+                    style="width: 100%"
+                    @expand-change="expandChange">
+                <el-table-column type="expand">
+                    <template slot-scope="scope">
+                        方法调试：
+                        <el-form ref="form" label-width="80px">
+                            <el-form-item label="入参：">
+                                <el-input type="textarea" :rows="4" v-model="scope.row.input"></el-input>
+                            </el-form-item>
+                            <el-form-item label="响应：">
+                                <el-input type="textarea" :rows="4" readonly v-model="scope.row.response"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click.native.prevent="executeMethod(scope.row)">执行</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                </el-table-column>
+                <!--width="650"-->
                 <el-table-column
                         label="方法"
-                        width="650">
+
+                >
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
                             详情:
@@ -24,7 +43,7 @@
                                 <span v-if="scope.row.detail && scope.row.detail.returnType === 'void'"
                                       style="color: chocolate">{{scope.row.detail.returnType}} </span>
                                 <span v-if="scope.row.detail && scope.row.detail.returnType !== 'void'"
-                                      >{{scope.row.detail.returnType}} </span>
+                                >{{scope.row.detail.returnType}} </span>
                                 <!--方法名-->
                                 <span v-if="scope.row.detail">{{scope.row.detail.methodName}}( </span>
 
@@ -57,7 +76,7 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                         prop="opt"
                         label="操作"
                         width="250">
@@ -69,7 +88,7 @@
                             展开
                         </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column>-->
             </el-table>
         </div>
     </div>
@@ -119,6 +138,21 @@
             this.routeChanged();
         },
         methods: {
+            /**
+             * 点击展开或关闭时触发
+             */
+            expandChange: function(row, expandedRows) {
+                // console.info(row, expandedRows);
+            },
+            /**
+             * 执行方法
+             */
+            executeMethod: function(row) {
+                console.info(row);
+            },
+            /**
+             * 路由改变时触发
+             */
             routeChanged: function () {
                 //base64解码
                 let path = atob(this.$route.params.path);
@@ -132,7 +166,7 @@
                 });
             },
             //打开操作
-            openOpt: function(row, index) {
+            openOpt: function (row, index) {
                 //todo 展开信息执行
                 console.info("操作了", row, index, this.body);
             },
@@ -145,11 +179,11 @@
                 let body = javaInfo.body;
                 let type = '';
 
-                if(!body['interface'] && !body['enum'] && !body['annotation']) {
+                if (!body['interface'] && !body['enum'] && !body['annotation']) {
                     type = "class";
-                } else if(body['enum']) {
+                } else if (body['enum']) {
                     type = "enum";
-                } else if(body['annotation']) {
+                } else if (body['annotation']) {
                     type = "@interface";
                 }
 
@@ -158,7 +192,7 @@
 
                 let info = "```java \n" +
                     "package " + body.packageName + "\n" +
-                    body.modifiersStr + " " + (type ? type + " ": "") + body.className.substring(body.className.lastIndexOf(".") + 1) + extendsInfo + "\n" +
+                    body.modifiersStr + " " + (type ? type + " " : "") + body.className.substring(body.className.lastIndexOf(".") + 1) + extendsInfo + "\n" +
                     "```";
 
                 return marked(info);
@@ -203,7 +237,9 @@
                         methodInfo.push({
                             detail: m,
                             method: method,
-                            methodName: m.methodName + "(" + argInfo + ")"
+                            methodName: m.methodName + "(" + argInfo + ")",
+                            input: "[]",
+                            response : "",
                         });
                     });
                 }
