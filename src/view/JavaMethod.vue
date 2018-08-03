@@ -9,13 +9,15 @@
                     style="width: 100%">
                 <el-table-column
                         label="方法"
-                        width="780">
+                        width="650">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
                             详情:
-                            <p v-for="ann in scope.row.detail.annotations">
-                                @{{ann}}()
-                            </p>
+                            <div v-if="scope.row.detail != undefined">
+                                <p v-for="ann in scope.row.detail.annotations">
+                                    @{{ann}}()
+                                </p>
+                            </div>
                             <p>{{ scope.row.method }}</p>
                             <div slot="reference">
                                 <el-tag size="medium">{{ scope.row.methodName }}</el-tag>
@@ -26,7 +28,7 @@
                 <el-table-column
                         prop="opt"
                         label="操作"
-                        width="100">
+                        width="250">
                 </el-table-column>
             </el-table>
         </div>
