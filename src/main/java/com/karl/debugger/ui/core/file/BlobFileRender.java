@@ -24,7 +24,11 @@ public class BlobFileRender extends BaseFileRender<String> {
 
     public BlobFileRender() {
         fileProcess.add("yml");
+        fileProcess.add("yaml");
         fileProcess.add("properties");
+        fileProcess.add("js");
+        fileProcess.add("css");
+        fileProcess.add("ini");
         fileProcess.add("html");
     }
 

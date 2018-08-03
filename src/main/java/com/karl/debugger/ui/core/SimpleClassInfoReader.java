@@ -33,6 +33,9 @@ public class SimpleClassInfoReader implements IClassInfoReader {
                 .setModifiersStr(Modifier.toString(mds))
                 .setSuperClassName(superClz != null ? superClz.getName(): null)
                 .setInterfaceClassNames(ClassUtils.getClassNames(clazz.getInterfaces()))
+                .setInterface(clazz.isInterface())
+                .setEnum(clazz.isEnum())
+                .setAnnotation(clazz.isAnnotation())
         ;
 
         //读取方法数据

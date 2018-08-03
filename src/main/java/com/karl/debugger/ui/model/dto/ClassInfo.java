@@ -42,6 +42,46 @@ public class ClassInfo {
      */
     private List<String> interfaceClassNames;
 
+    /**
+     * 是否接口
+     */
+    private boolean isInterface;
+    /**
+     * 是否枚举
+     */
+    private boolean isEnum;
+    /**
+     * 是否注解
+     */
+    private boolean isAnnotation;
+
+    public boolean isInterface() {
+        return isInterface;
+    }
+
+    public ClassInfo setInterface(boolean anInterface) {
+        isInterface = anInterface;
+        return this;
+    }
+
+    public boolean isEnum() {
+        return isEnum;
+    }
+
+    public ClassInfo setEnum(boolean anEnum) {
+        isEnum = anEnum;
+        return this;
+    }
+
+    public boolean isAnnotation() {
+        return isAnnotation;
+    }
+
+    public ClassInfo setAnnotation(boolean annotation) {
+        isAnnotation = annotation;
+        return this;
+    }
+
     public List<MethodInfo> getMethods() {
         return methods;
     }
