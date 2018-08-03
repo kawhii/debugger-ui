@@ -7,6 +7,8 @@ import org.springframework.util.FileSystemUtils;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 直接输出的文件渲染器
@@ -15,6 +17,17 @@ import java.io.IOException;
  * @date 2018/7/22
  */
 public class BlobFileRender extends BaseFileRender<String> {
+    /**
+     * 这些后缀能够被处理
+     */
+    private Set<String> fileProcess = new HashSet<>();
+
+    public BlobFileRender() {
+        fileProcess.add("yml");
+        fileProcess.add("properties");
+        fileProcess.add("html");
+    }
+
     @Override
     public String name() {
         return "blob";
@@ -22,7 +35,7 @@ public class BlobFileRender extends BaseFileRender<String> {
 
     @Override
     public boolean support(String suffix) {
-        return "properties".equals(suffix) || "yml".equals(suffix);
+        return fileProcess.contains(suffix);
     }
 
     @Override
