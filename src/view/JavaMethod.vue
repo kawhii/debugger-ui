@@ -143,9 +143,22 @@
              */
             renderJavaInfo: function (javaInfo) {
                 let body = javaInfo.body;
+                let type = '';
+
+                if(!body['interface'] && !body['enum'] && !body['annotation']) {
+                    type = "class";
+                } else if(body['enum']) {
+                    type = "enum";
+                } else if(body['annotation']) {
+                    type = "@interface";
+                }
+
+                //继承信息
+                let extendsInfo = body.superClassName ? " extends " + body.superClassName : "";
+
                 let info = "```java \n" +
                     "package " + body.packageName + "\n" +
-                    body.modifiersStr + " " + body.className + "\n" +
+                    body.modifiersStr + " " + (type ? type + " ": "") + body.className.substring(body.className.lastIndexOf(".") + 1) + extendsInfo + "\n" +
                     "```";
 
                 return marked(info);
