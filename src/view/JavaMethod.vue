@@ -16,10 +16,11 @@
                                 <el-input type="textarea" :rows="4" v-model="scope.row.input"></el-input>
                             </el-form-item>
                             <el-form-item label="响应：">
-                                <el-input type="textarea" :rows="4" readonly v-model="scope.row.response"></el-input>
+                                <el-input type="textarea" :rows="4" readonly v-html="scope.row.response"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" @click.native.prevent="executeMethod(scope.row)">执行</el-button>
+                                <el-button type="primary" @click.native.prevent="executeMethod(scope.row)">执行
+                                </el-button>
                             </el-form-item>
                         </el-form>
                     </template>
@@ -76,19 +77,6 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <!--<el-table-column
-                        prop="opt"
-                        label="操作"
-                        width="250">
-                    <template slot-scope="scope">
-                        <el-button
-                                @click.native.prevent="openOpt(scope.row, scope.$index)"
-                                type="text"
-                                size="small">
-                            展开
-                        </el-button>
-                    </template>
-                </el-table-column>-->
             </el-table>
         </div>
     </div>
@@ -105,11 +93,8 @@
     // Create your custom renderer.
     const renderer = new Renderer();
     renderer.code = (code, language) => {
-        // Check whether the given language is valid for highlight.js.
         const validLang = !!(language && highlightjs.getLanguage(language));
-        // Highlight only if the language is valid.
         const highlighted = validLang ? highlightjs.highlight(language, code).value : code;
-        // Render the highlighted code with `hljs` class.
         return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
     };
 
@@ -141,14 +126,45 @@
             /**
              * 点击展开或关闭时触发
              */
-            expandChange: function(row, expandedRows) {
+            expandChange: function (row, expandedRows) {
                 // console.info(row, expandedRows);
             },
             /**
              * 执行方法
              */
-            executeMethod: function(row) {
-                console.info(row);
+            executeMethod: function (row) {
+                let input = row.input;
+                //类名
+                let className = this.body.className;
+                //方法名称
+                let methodName = row.detail.methodName;
+                //参数类型
+                let types = "";
+
+                //拼装参数类型
+                if (row.detail.args) {
+                    row.detail.args.forEach(arg => {
+                        types += arg.type;
+                        types += ",";
+                    });
+                    types = types.substring(0, types.length - 1);
+                }
+
+                if (types) {
+                    //base64
+                    types = btoa(types);
+                }
+
+                // 需要将类名，方法名进行base64("com.karl.debugger.ui.service.impl.FileServiceImpl")
+                // 方法类型，如果有函数，则需要进行base64("java.lang.String,java.lang.Integer")
+                axios.post("/dg/invoke/" + btoa(className) + "/" + btoa(methodName) + "?types=" + types, JSON.parse(input))
+                    .then(function (response) {
+
+                        let info = "```json \n" +
+                            response.data +
+                            "\n```";
+                        row.response = marked(info);
+                    });
             },
             /**
              * 路由改变时触发
@@ -164,11 +180,6 @@
                     _this.body = response.data.body;
                     _this.classInfo = _this.renderJavaInfo(response.data);
                 });
-            },
-            //打开操作
-            openOpt: function (row, index) {
-                //todo 展开信息执行
-                console.info("操作了", row, index, this.body);
             },
             /**
              * 渲染java信息
@@ -239,7 +250,7 @@
                             method: method,
                             methodName: m.methodName + "(" + argInfo + ")",
                             input: "[]",
-                            response : "",
+                            response: "",
                         });
                     });
                 }
