@@ -21,7 +21,7 @@ public class BeansConfig {
      * @return
      */
     @Bean("springApplicationContextInstanceStrategy")
-    protected IInstanceStrategy instanceStrategy() {
+    protected SpringApplicationContextInstanceStrategy instanceStrategy() {
         return new SpringApplicationContextInstanceStrategy();
     }
 
