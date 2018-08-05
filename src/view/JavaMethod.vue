@@ -159,11 +159,28 @@
                 // 方法类型，如果有函数，则需要进行base64("java.lang.String,java.lang.Integer")
                 axios.post("/dg/invoke/" + btoa(className) + "/" + btoa(methodName) + "?types=" + types, JSON.parse(input))
                     .then(function (response) {
-
-                        let info = "```json \n" +
-                            response.data.body +
-                            "\n```";
-                        row.response = marked(info);
+                        let body = response.data.body;
+                        if (response.data.code === 0) {
+                            let type = "json";
+                            //强转成json字符串
+                            if (body != null) {
+                                body = JSON.stringify(body);
+                            } else {
+                                type = "text";
+                                body = "方法返回为void或者无内容响应"
+                            }
+                            let info = "```" + type + " \n" +
+                                body +
+                                "\n```";
+                            // row.response = marked(info);
+                            row.response = body;
+                        } else {
+                            let info = "```java\n" +
+                                response.data.message +
+                                "\n```";
+                            // row.response = marked(info);
+                            row.response = response.data.message;
+                        }
                     });
             },
             /**
