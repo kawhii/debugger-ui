@@ -1,6 +1,8 @@
 package com.karl.debugger.ui.endpoint;
 
 import com.karl.debugger.ui.core.IMethodExecuteInstanceBuilder;
+import com.karl.debugger.ui.core.IMethodInvoker;
+import com.karl.debugger.ui.model.dto.EndpointResponse;
 import com.karl.debugger.ui.model.dto.MethodExecuteInstance;
 import com.karl.debugger.ui.model.dto.MethodExecuteOriginal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/dg/invoke")
-public class DebugInvokeEndpoint {
+public class DebugInvokeEndpoint extends BaseEndpoint {
     @Autowired
     private IMethodExecuteInstanceBuilder instanceBuilder;
 
+    @Autowired
+    private IMethodInvoker methodInvoker;
+
     @PostMapping("/{clazz}/{method}")
-    public Object invoke(
+    public EndpointResponse<?> invoke(
             //执行类名，需要将类名进行base64("com.karl.debugger.ui.service.impl.FileServiceImpl")
             @PathVariable("clazz") String clz,
             //执行方法名
@@ -48,8 +53,9 @@ public class DebugInvokeEndpoint {
                 .setParamsValue(params);
 
         MethodExecuteInstance obj = instanceBuilder.build(methodExecute);
-        //todo 执行方法响应
-        return clazzName + "." + methodName + "." + types;
+        //方法执行
+        Object res = methodInvoker.invoke(obj);
+        return EndpointResponse.success(res);
     }
 
     /**
@@ -61,12 +67,7 @@ public class DebugInvokeEndpoint {
         if (!StringUtils.isEmpty(typeStr)) {
             String[] typeArray = StringUtils.tokenizeToStringArray(new String(Base64Utils.decodeFromString(typeStr)), ",");
             return Arrays.asList(typeArray);
-
         }
         return null;
     }
-
-
-
-
 }

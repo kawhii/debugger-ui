@@ -1,5 +1,6 @@
 package com.karl.debugger.ui.endpoint;
 
+import com.karl.debugger.ui.model.dto.EndpointResponse;
 import com.karl.debugger.ui.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.AntPathMatcher;
@@ -18,21 +19,22 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/dg")
-public class FileEndpoint {
+public class FileEndpoint extends BaseEndpoint {
     @Autowired
     private IFileService fileService;
 
     @GetMapping(path = "/tree/**")
-    public Object getFiles(HttpServletRequest request) throws IOException {
+    public EndpointResponse<?> getFiles(HttpServletRequest request) throws IOException {
         String urlTail = new AntPathMatcher()
                 .extractPathWithinPattern("/{dg}/{tree}/**", request.getRequestURI());
-        return fileService.list(urlTail);
+        Object res = fileService.list(urlTail);
+        return EndpointResponse.success(res);
     }
 
     @GetMapping(path = "/blob/**")
     public Object fileContent(HttpServletRequest request) throws IOException {
         String urlTail = new AntPathMatcher()
                 .extractPathWithinPattern("/{dg}/{blob}/**", request.getRequestURI());
-        return fileService.fileDetail(urlTail);
+        return EndpointResponse.success(fileService.fileDetail(urlTail));
     }
 }
