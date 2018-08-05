@@ -4,6 +4,8 @@ import com.karl.debugger.ui.core.exception.MethodInvokeException;
 import com.karl.debugger.ui.model.dto.MethodExecuteInstance;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
+
 
 /**
  * 默认的方法执行
@@ -17,6 +19,8 @@ public class DefaultMethodInvoker implements IMethodInvoker {
     public Object invoke(MethodExecuteInstance instance) throws MethodInvokeException {
         Object[] args = (instance.getArgs() != null && instance.getArgs().size() > 0) ? instance.getArgs().toArray() : null;
         try {
+            Method method = instance.getMethod();
+            method.setAccessible(true);
             return instance.getMethod().invoke(instance.getInstance(), args);
         } catch (Exception e) {
             throw new MethodInvokeException(e, instance);

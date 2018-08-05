@@ -2,12 +2,12 @@ package com.karl.debugger.ui.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.karl.debugger.ui.core.exception.InstanceException;
+import com.karl.debugger.ui.core.exception.MethodInstanceBuilderException;
 import com.karl.debugger.ui.model.dto.MethodExecuteInstance;
 import com.karl.debugger.ui.model.dto.MethodExecuteOriginal;
 import com.karl.debugger.ui.utils.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
@@ -30,18 +30,37 @@ public class SpringMethodExecuteInstanceBuilder implements IMethodExecuteInstanc
     private SpringApplicationContextInstanceStrategy instanceStrategy;
 
     @Override
-    public MethodExecuteInstance build(MethodExecuteOriginal original) throws ClassNotFoundException, InstanceException, NoSuchMethodException {
+    public MethodExecuteInstance build(MethodExecuteOriginal original) throws MethodInstanceBuilderException, InstanceException {
         MethodExecuteInstance instance = new MethodExecuteInstance();
         //获取类名
-        Class<?> clazz = ClassUtils.forName(original.getClassName(), null);
+        Class<?> clazz;
+        try {
+            clazz = ClassUtils.forName(original.getClassName(), null);
+        } catch (ClassNotFoundException e) {
+            throw new MethodInstanceBuilderException(e, original);
+        }
         //执行实例
         instance.setInstance(instanceStrategy.getInstance(clazz));
 
         //参数类型
-        List<Class<?>> types = getTypes(original.getParamsTypes());
+        List<Class<?>> types ;
+        try {
+            types = getTypes(original.getParamsTypes());
+        } catch (ClassNotFoundException e) {
+            throw new MethodInstanceBuilderException(e, original);
+        }
         Class<?>[] typesArr = types != null ? types.toArray(new Class[]{}) : null;
-        Method method = clazz.getDeclaredMethod(original.getMethodName(), typesArr);
+
+        //执行方法
+        Method method;
+        try {
+            //获取自身方法
+            method = clazz.getDeclaredMethod(original.getMethodName(), typesArr);
+        } catch (NoSuchMethodException e) {
+            throw new MethodInstanceBuilderException(e, original);
+        }
         instance.setMethod(method);
+
         try {
             instance.setArgs(getParamsInstance(original.getParamsValue(), types));
         } catch (IOException e) {
