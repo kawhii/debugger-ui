@@ -47,7 +47,7 @@
                 }
                 //异步请求回来把数据展示在页面上
                 axios.get("/dg/tree" + next).then(function (response) {
-                    resolve(response.data);
+                    resolve(response.data.body);
                 });
             }
         },

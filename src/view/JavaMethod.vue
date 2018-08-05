@@ -161,7 +161,7 @@
                     .then(function (response) {
 
                         let info = "```json \n" +
-                            response.data +
+                            response.data.body +
                             "\n```";
                         row.response = marked(info);
                     });
@@ -176,9 +176,9 @@
                 //异步请求回来把数据展示在页面上
                 axios.get("/dg/blob/" + path).then(function (response) {
                     //渲染方法
-                    _this.tableData = _this.renderMethodInfo(response.data.body.methods);
-                    _this.body = response.data.body;
-                    _this.classInfo = _this.renderJavaInfo(response.data);
+                    _this.tableData = _this.renderMethodInfo(response.data.body.body.methods);
+                    _this.body = response.data.body.body;
+                    _this.classInfo = _this.renderJavaInfo(response.data.body);
                 });
             },
             /**

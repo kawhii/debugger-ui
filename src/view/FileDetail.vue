@@ -47,7 +47,7 @@
                 axios.get("/dg/blob/" + path).then(function (response) {
                     //以markdown的方式更新数据
                     _this.fileDetail = marked('```' + type + " \n" +
-                        atob(response.data.body) +
+                        atob(response.data.body.body) +
                             " \n "  +
                         "```");
                 });
