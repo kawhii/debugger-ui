@@ -1,16 +1,18 @@
 package com.karl.debugger.ui.config;
 
 import com.karl.debugger.ui.core.SpringApplicationContextInstanceStrategy;
-import com.karl.debugger.ui.core.file.BlobFileRender;
+import com.karl.debugger.ui.core.file.JarBlobFileRender;
+import com.karl.debugger.ui.core.file.SystemBlobFileRender;
 import com.karl.debugger.ui.core.file.ClassFileRender;
 import com.karl.debugger.ui.core.file.IFileRender;
 import com.karl.debugger.ui.service.IFileService;
 import com.karl.debugger.ui.service.impl.JarFileServiceImpl;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.jar.JarFile;
 
 /**
@@ -31,6 +33,23 @@ public class BeansConfig {
     }
 
     /**
+     * 文件后缀允许处理
+     * @return
+     */
+    @Bean("fileProcessSuffix")
+    protected Set<String> fileProcessSuffix() {
+        Set<String> fileProcess = new HashSet<>();
+        fileProcess.add("yml");
+        fileProcess.add("yaml");
+        fileProcess.add("properties");
+        fileProcess.add("js");
+        fileProcess.add("css");
+        fileProcess.add("ini");
+        fileProcess.add("html");
+        return fileProcess;
+    }
+
+    /**
      * 类文件渲染器
      * @return
      */
@@ -44,8 +63,11 @@ public class BeansConfig {
      * @return
      */
     @Bean
-    protected IFileRender blobFileRender() {
-        return new BlobFileRender();
+    protected IFileRender blobFileRender() throws IOException {
+//        return new SystemBlobFileRender();
+        String path = "/Users/karl/Documents/Work/Person/Code/debugger-ui/target/debugger-ui.jar";
+
+        return new JarBlobFileRender(new JarFile(path));
     }
 
     @Bean

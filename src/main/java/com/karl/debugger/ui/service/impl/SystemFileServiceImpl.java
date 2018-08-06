@@ -6,7 +6,6 @@ import com.karl.debugger.ui.model.dto.FileContentDTO;
 import com.karl.debugger.ui.model.dto.FileDTO;
 import com.karl.debugger.ui.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriUtils;
 
@@ -24,7 +23,6 @@ import java.util.List;
  * @author karl
  * @date 2018/7/18
  */
-//@Service
 public class SystemFileServiceImpl implements IFileService {
     @Autowired
     private IRootDirectoryAware directoryAware;

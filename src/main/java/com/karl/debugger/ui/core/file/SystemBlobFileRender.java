@@ -1,13 +1,13 @@
 package com.karl.debugger.ui.core.file;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -16,21 +16,13 @@ import java.util.Set;
  * @author karl
  * @date 2018/7/22
  */
-public class BlobFileRender extends BaseFileRender<String> {
+public class SystemBlobFileRender extends BaseFileRender<String> {
     /**
      * 这些后缀能够被处理
      */
-    private Set<String> fileProcess = new HashSet<>();
-
-    public BlobFileRender() {
-        fileProcess.add("yml");
-        fileProcess.add("yaml");
-        fileProcess.add("properties");
-        fileProcess.add("js");
-        fileProcess.add("css");
-        fileProcess.add("ini");
-        fileProcess.add("html");
-    }
+    @Autowired
+    @Qualifier("fileProcessSuffix")
+    private Set<String> fileProcessSuffix;
 
     @Override
     public String name() {
@@ -39,7 +31,7 @@ public class BlobFileRender extends BaseFileRender<String> {
 
     @Override
     public boolean support(String suffix) {
-        return fileProcess.contains(suffix);
+        return fileProcessSuffix.contains(suffix);
     }
 
     @Override
