@@ -13,6 +13,7 @@ import com.karl.debugger.ui.service.impl.SystemFileServiceImpl;
 import org.springframework.boot.ApplicationHome;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,6 +29,7 @@ import java.util.jar.JarFile;
  * @date 2018/7/19
  */
 @Configuration
+@ComponentScan(basePackages = "com.karl.debugger.ui")
 public class BeansConfig {
     /**
      * spring的bean获取执行策略
