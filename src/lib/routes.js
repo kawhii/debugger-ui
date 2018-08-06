@@ -1,8 +1,6 @@
 import Home from "../view/Home"
 import FileDetail from "../view/FileDetail"
 import JavaMethod from "../view/JavaMethod"
-const Foo = {template: '<div>foo</div>'};
-const Bar = {template: '<div>bar</div>'};
 
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
@@ -11,7 +9,5 @@ const Bar = {template: '<div>bar</div>'};
 export default  [
     {path: '/', component: Home},
     {path: '/detail/:type/:path', component: FileDetail, name: "detail"},
-    {path: '/methods/:path', component: JavaMethod, name: "methods"},
-    {path: '/foo', component: Foo},
-    {path: '/bar', component: Bar}
+    {path: '/methods/:path', component: JavaMethod, name: "methods"}
 ];

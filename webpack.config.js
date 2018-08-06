@@ -6,8 +6,8 @@ const publicPath = '';
 
 module.exports = (options = {}) => ({
     entry: {
-        vendor: './src/vendor',
-        index: './src/main.js'
+        '/debug-ui/vendor': './src/vendor',
+        '/debug-ui/main': './src/main.js'
     },
     output: {
         path: resolve(__dirname, 'dist'),
@@ -42,10 +42,10 @@ module.exports = (options = {}) => ({
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            names: ['vendor', 'manifest']
+            names: ['/debug-ui/vendor-chunk', '/debug-ui/manifest-chunk']
         }),
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            template: 'src/debug-ui.html'
         })
     ],
     resolve: {
