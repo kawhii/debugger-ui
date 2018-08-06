@@ -1,13 +1,19 @@
 package com.karl.debugger.ui.config;
 
 import com.karl.debugger.ui.core.SpringApplicationContextInstanceStrategy;
+import com.karl.debugger.ui.core.condition.JarFileCondition;
+import com.karl.debugger.ui.core.condition.SystemPathCondition;
 import com.karl.debugger.ui.core.file.JarBlobFileRender;
 import com.karl.debugger.ui.core.file.SystemBlobFileRender;
 import com.karl.debugger.ui.core.file.ClassFileRender;
 import com.karl.debugger.ui.core.file.IFileRender;
 import com.karl.debugger.ui.service.IFileService;
 import com.karl.debugger.ui.service.impl.JarFileServiceImpl;
+import com.karl.debugger.ui.service.impl.SystemFileServiceImpl;
+import org.springframework.boot.ApplicationHome;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
@@ -63,17 +69,51 @@ public class BeansConfig {
      * @return
      */
     @Bean
-    protected IFileRender blobFileRender() throws IOException {
-//        return new SystemBlobFileRender();
-        String path = "/Users/karl/Documents/Work/Person/Code/debugger-ui/target/debugger-ui.jar";
-
-        return new JarBlobFileRender(new JarFile(path));
+    @Conditional(JarFileCondition.class)
+    protected IFileRender jarBlobFileRender(JarFile jarFile) {
+        return new JarBlobFileRender(jarFile);
     }
 
+    /**
+     * 系统文件读取
+     * @return
+     */
     @Bean
-    protected IFileService fileService() throws IOException {
-        String path = "/Users/karl/Documents/Work/Person/Code/debugger-ui/target/debugger-ui.jar";
+    @Conditional(SystemPathCondition.class)
+    protected IFileRender systemBlobFileRender() {
+        return new SystemBlobFileRender();
+    }
 
-        return new JarFileServiceImpl(new JarFile(path));
+    /**
+     * jar包方式读取
+     * @param jarFile
+     * @return
+     */
+    @Bean
+    @Conditional(JarFileCondition.class)
+    protected IFileService jarFileService(JarFile jarFile) {
+        return new JarFileServiceImpl(jarFile);
+    }
+
+    /**
+     * 系统路径方式读取
+     * @return
+     */
+    @Bean
+    @Conditional(SystemPathCondition.class)
+    protected IFileService systemFileService() {
+        return new SystemFileServiceImpl();
+    }
+
+    @Bean("springBootJarFile")
+    @Conditional(JarFileCondition.class)
+    protected JarFile jarFile() {
+        ApplicationHome home = new ApplicationHome(new SpringApplication().getMainApplicationClass());
+        try {
+            return new JarFile(home.getSource().getAbsoluteFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

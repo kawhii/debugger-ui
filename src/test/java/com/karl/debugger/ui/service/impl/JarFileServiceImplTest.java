@@ -19,12 +19,12 @@ public class JarFileServiceImplTest {
     public void setUp() throws Exception {
         String path = "/Users/karl/Documents/Work/Person/Code/debugger-ui/target/debugger-ui.jar";
 
-        jarFileService = new JarFileServiceImpl(new JarFile(path));
+//        jarFileService = new JarFileServiceImpl(new JarFile(path));
     }
 
     @Test
     public void list() throws IOException {
-        jarFileService.list("public");
+//        jarFileService.list("public");
     }
 
     @Test
