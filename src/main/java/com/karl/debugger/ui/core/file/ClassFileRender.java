@@ -28,7 +28,6 @@ public class ClassFileRender extends BaseFileRender<ClassInfo> {
 
     @Override
     public ClassInfo render(String filePath) throws IOException {
-        checkExists(filePath);
         String clazz = filePath.substring(0, filePath.lastIndexOf("."))
                 .replaceAll("/",".");
         try {

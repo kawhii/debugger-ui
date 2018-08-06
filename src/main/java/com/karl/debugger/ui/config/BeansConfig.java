@@ -1,12 +1,17 @@
 package com.karl.debugger.ui.config;
 
-import com.karl.debugger.ui.core.IInstanceStrategy;
 import com.karl.debugger.ui.core.SpringApplicationContextInstanceStrategy;
 import com.karl.debugger.ui.core.file.BlobFileRender;
 import com.karl.debugger.ui.core.file.ClassFileRender;
 import com.karl.debugger.ui.core.file.IFileRender;
+import com.karl.debugger.ui.service.IFileService;
+import com.karl.debugger.ui.service.impl.JarFileServiceImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
+import java.util.jar.JarFile;
 
 /**
  * 实例配置
@@ -41,5 +46,12 @@ public class BeansConfig {
     @Bean
     protected IFileRender blobFileRender() {
         return new BlobFileRender();
+    }
+
+    @Bean
+    protected IFileService fileService() throws IOException {
+        String path = "/Users/karl/Documents/Work/Person/Code/debugger-ui/target/debugger-ui.jar";
+
+        return new JarFileServiceImpl(new JarFile(path));
     }
 }

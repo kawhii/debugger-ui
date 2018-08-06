@@ -24,8 +24,8 @@ import java.util.List;
  * @author karl
  * @date 2018/7/18
  */
-@Service
-public class FileServiceImpl implements IFileService {
+//@Service
+public class SystemFileServiceImpl implements IFileService {
     @Autowired
     private IRootDirectoryAware directoryAware;
     @Autowired
@@ -77,15 +77,31 @@ public class FileServiceImpl implements IFileService {
         fileContentDTO.setSuffix(suffix);
 
         //找到合适的渲染器进行渲染
-        for(IFileRender fileRender : renders) {
-            if(fileRender.support(suffix)) {
-                fileContentDTO.setType(fileRender.name());
-                fileContentDTO.setBody(fileRender.render(filePath));
-                return fileContentDTO;
-            }
+        if (renderFile(filePath, suffix, fileContentDTO, renders)) {
+            return fileContentDTO;
         }
 
         throw new NotLinkException(filePath);
+    }
+
+    /**
+     * 抽离渲染
+     * @param filePath
+     * @param suffix
+     * @param fileContentDTO
+     * @param renders
+     * @return
+     * @throws IOException
+     */
+    static boolean renderFile(String filePath, String suffix, FileContentDTO fileContentDTO, List<IFileRender> renders) throws IOException {
+        for (IFileRender fileRender : renders) {
+            if (fileRender.support(suffix)) {
+                fileContentDTO.setType(fileRender.name());
+                fileContentDTO.setBody(fileRender.render(filePath));
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
