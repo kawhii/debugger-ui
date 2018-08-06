@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +40,10 @@ public class SpringMethodExecuteInstanceBuilder implements IMethodExecuteInstanc
         } catch (ClassNotFoundException e) {
             throw new MethodInstanceBuilderException(e, original);
         }
-        //执行实例
-        instance.setInstance(instanceStrategy.getInstance(clazz));
+
 
         //参数类型
-        List<Class<?>> types ;
+        List<Class<?>> types;
         try {
             types = getTypes(original.getParamsTypes());
         } catch (ClassNotFoundException e) {
@@ -60,6 +60,12 @@ public class SpringMethodExecuteInstanceBuilder implements IMethodExecuteInstanc
             throw new MethodInstanceBuilderException(e, original);
         }
         instance.setMethod(method);
+
+        //若值静态的，则不需要加载实例
+        if (!Modifier.isStatic(method.getModifiers())) {
+            //执行实例
+            instance.setInstance(instanceStrategy.getInstance(clazz));
+        }
 
         try {
             instance.setArgs(getParamsInstance(original.getParamsValue(), types));
