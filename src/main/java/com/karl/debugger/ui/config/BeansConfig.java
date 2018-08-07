@@ -62,6 +62,13 @@ public class BeansConfig {
         fileProcess.add("css");
         fileProcess.add("ini");
         fileProcess.add("html");
+        fileProcess.add("xml");
+        fileProcess.add("xsd");
+        fileProcess.add("txt");
+        fileProcess.add("sql");
+        fileProcess.add("ftl");
+        fileProcess.add("jsp");
+        fileProcess.add("vm");
         return fileProcess;
     }
 
