@@ -1,8 +1,7 @@
 language: java
-jdk:
-  - oraclejdk8
-
+jdk: oraclejdk8
 sudo: true
+
 branches:
   only:
     - master
@@ -12,7 +11,7 @@ cache:
 
 before_script:
   - export JAVA_OPTS="-Xmx2048m"
-  - chmod +x mvnw
+  - chmod a+x ./mvnw
 
 script:
   - mvn package
