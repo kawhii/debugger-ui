@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/kawhii/debugger-ui.svg?branch=master)](https://travis-ci.org/kawhii/debugger-ui)
+# debugger-ui
+
+[![Build Status](https://travis-ci.org/kawhii/debugger-ui.svg?branch=master)](https://travis-ci.org/kawhii/debugger-ui) [![GitHub license](https://img.shields.io/github/license/kawhii/debugger-ui.svg)](https://github.com/kawhii/debugger-ui/blob/master/LICENSE) [![codecov](https://codecov.io/gh/kawhii/debugger-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/kawhii/debugger-ui)
+
 # 项目规划
 
 1. 通过在线debug完成对所有方法的执行与响应
