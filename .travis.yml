@@ -26,7 +26,7 @@ before_script:
 - echo $MAVEN_OPTS
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash) -t ${codecov-uuid-repo-token}
 jdk:
 - oraclejdk8
 
@@ -37,7 +37,6 @@ env:
   global:
   - JAVA_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xms48M -Xmx640M -XX:InitialCodeCacheSize=40M -XX:ReservedCodeCacheSize=120M -Djava.security.egd=file:/dev/./urandom"
   - MALLOC_ARENA_MAX=2
-  - CODECOV_TOKEN=:codecov-uuid-repo-token
 install:
 - ./mvnw package
 
