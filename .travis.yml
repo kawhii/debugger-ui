@@ -14,6 +14,7 @@ before_install:
 - export MAVEN_SKIP_RC=true
 - export MAVEN_OPTS="-Xmn64M -Xmx512M -XX:CompressedClassSpaceSize=96M"
 - export JAVA_OPTS="$JAVA_OPTS -XX:CompressedClassSpaceSize=96M"
+- chmod +x ./mvnw
 
 before_script:
 - unset GEM_PATH GEM_HOME IRBRC JRUBY_OPTS
