@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/kawhii/debugger-ui.svg?branch=master)](https://travis-ci.org/kawhii/debugger-ui)
 # 项目规划
 
 1. 通过在线debug完成对所有方法的执行与响应
