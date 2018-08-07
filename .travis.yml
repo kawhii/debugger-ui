@@ -35,4 +35,4 @@ env:
   - MALLOC_ARENA_MAX=2
 
 install:
-- ./mvnw $MAVEN_CLI_OPTS package
+- ./mvnw package
