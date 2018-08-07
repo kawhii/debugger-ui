@@ -3,6 +3,7 @@ package com.karl.debugger.ui.core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.karl.debugger.ui.core.exception.InstanceException;
 import com.karl.debugger.ui.core.exception.MethodInstanceBuilderException;
+import com.karl.debugger.ui.core.strategy.DelegateInstanceStrategy;
 import com.karl.debugger.ui.model.dto.MethodExecuteInstance;
 import com.karl.debugger.ui.model.dto.MethodExecuteOriginal;
 import com.karl.debugger.ui.utils.PropertiesUtil;
@@ -28,7 +29,7 @@ public class SpringMethodExecuteInstanceBuilder implements IMethodExecuteInstanc
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    private SpringApplicationContextInstanceStrategy instanceStrategy;
+    private DelegateInstanceStrategy instanceStrategy;
 
     @Override
     public MethodExecuteInstance build(MethodExecuteOriginal original) throws MethodInstanceBuilderException, InstanceException {

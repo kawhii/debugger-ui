@@ -1,6 +1,8 @@
 package com.karl.debugger.ui.config;
 
-import com.karl.debugger.ui.core.SpringApplicationContextInstanceStrategy;
+import com.karl.debugger.ui.core.strategy.DelegateInstanceStrategy;
+import com.karl.debugger.ui.core.IInstanceStrategy;
+import com.karl.debugger.ui.core.strategy.SpringApplicationContextInstanceStrategy;
 import com.karl.debugger.ui.core.condition.JarFileCondition;
 import com.karl.debugger.ui.core.condition.SystemPathCondition;
 import com.karl.debugger.ui.core.file.JarBlobFileRender;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.jar.JarFile;
 
@@ -36,8 +39,13 @@ public class BeansConfig {
      * @return
      */
     @Bean("springApplicationContextInstanceStrategy")
-    protected SpringApplicationContextInstanceStrategy instanceStrategy() {
+    protected SpringApplicationContextInstanceStrategy springApplicationContextInstanceStrategy() {
         return new SpringApplicationContextInstanceStrategy();
+    }
+
+    @Bean("delegateInstanceStrategy")
+    protected DelegateInstanceStrategy delegateInstanceStrategy(List<IInstanceStrategy> strategies) {
+        return new DelegateInstanceStrategy(strategies);
     }
 
     /**

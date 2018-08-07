@@ -1,5 +1,6 @@
-package com.karl.debugger.ui.core;
+package com.karl.debugger.ui.core.strategy;
 
+import com.karl.debugger.ui.core.IInstanceStrategy;
 import com.karl.debugger.ui.core.exception.InstanceException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;

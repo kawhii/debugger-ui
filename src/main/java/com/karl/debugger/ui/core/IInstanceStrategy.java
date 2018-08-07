@@ -17,4 +17,12 @@ public interface IInstanceStrategy {
      * @throws InstanceException 发生任何异常时抛出
      */
     Object getInstance(Class<?> clazz, Object ... args) throws InstanceException;
+
+    /**
+     * 该策略重要程度
+     * @return
+     */
+    default int important() {
+        return 0;
+    }
 }
